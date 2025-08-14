@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React</title>
+  <script type="text/javascript">
+    var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+    // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+    clevertap.account.push({ "id": "RZK-797-6Z7Z" }, 'sk1-staging-4', 'wzrkt.com');
+    // clevertap.account.push({ "id": "W9R-486-4W5Z" });
+    clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+    clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+    (function () {
+      var wzrk = document.createElement('script');
+      wzrk.type = 'text/javascript';
+      wzrk.async = true;
+      wzrk.src = "/clevertap.js";
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wzrk, s);
+    })();
+  </script>
+  <script type="text/javascript">
+    // Function to configure CleverTap once it's loaded
+    function configureCleverTap() {
+      if (window.clevertap && typeof clevertap.setLogLevel === 'function') {
+        clevertap.setLogLevel(3);
+        clevertap.notifications.push({
+          "titleText": "Would you like to receive Push Notifications?",
+          "bodyText": "We promise to only send you relevant content and give you updates on your transactions",
+          "okButtonText": "Ok",
+          "rejectButtonText": "Cancel",
+          "okButtonColor": "#F28046",
+          "askAgainTimeInSeconds": 15,
+          "hidePoweredByCT": true,
+          "serviceWorkerPath": "./clevertap_sw.js",
+        });
+        console.log('this is test')
+      } else {
+        // Retry if CleverTap isn't ready yet
+        setTimeout(configureCleverTap, 100);
+      }
+    }
+
+    // Start configuration after a short delay
+    setTimeout(configureCleverTap, 100);
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
